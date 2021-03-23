@@ -1,0 +1,32 @@
+package com.genesis.auction.domain.model;
+
+import java.math.BigDecimal;
+
+import javax.validation.constraints.NotNull;
+
+public class Bid {
+
+	
+	@NotNull
+	private String bidderName;
+		
+	private BigDecimal bidValue;
+	
+	public String getBidderName() {
+		return bidderName;
+	}
+	public void setBidderName(String bidderName) {
+		this.bidderName = bidderName;
+	}
+	public BigDecimal getBidValue() {
+		return bidValue;
+	}
+	public void setBidValue(BigDecimal bidValue) {
+		this.bidValue = bidValue;
+	}
+	
+	
+	
+	
+	
+}

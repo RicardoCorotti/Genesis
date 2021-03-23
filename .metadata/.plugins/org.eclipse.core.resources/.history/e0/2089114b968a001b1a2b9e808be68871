@@ -1,0 +1,14 @@
+package com.genesis.auction.domain.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+public class MaximumNumberOfBidsReachedException extends BusinessException {
+
+	private static final long serialVersionUID = 3685908781863937279L;
+
+	public MaximumNumberOfBidsReachedException(String message) {
+		super(message);
+	}
+	
+}

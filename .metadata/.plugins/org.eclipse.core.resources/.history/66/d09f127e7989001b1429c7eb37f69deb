@@ -1,0 +1,12 @@
+package com.genesis.auction;
+
+public class Bid {
+
+	private String bidderName;
+	private Float bidValue;
+	
+	
+	
+	
+	
+}

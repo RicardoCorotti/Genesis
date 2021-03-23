@@ -1,0 +1,5 @@
+package com.genesis.auction.api.controller;
+
+public class BidController {
+
+}

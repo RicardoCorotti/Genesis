@@ -1,0 +1,11 @@
+package com.genesis.auction.domain.exception;
+
+
+public class NoWinnerException extends BusinessException {
+
+
+	public NoWinnerException(String message) {
+		super(message);
+	}
+	
+}

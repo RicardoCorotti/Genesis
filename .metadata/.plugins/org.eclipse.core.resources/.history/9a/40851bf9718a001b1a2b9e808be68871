@@ -1,0 +1,44 @@
+package com.genesis.auction.domain.service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentSkipListMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.genesis.auction.domain.exception.InvalidBidValueException;
+import com.genesis.auction.domain.model.Auction;
+import com.genesis.auction.domain.model.Bid;
+
+@Service
+public class BidService {
+
+	@Autowired 
+	Auction auction;
+	
+	public Bid add(Bid bid) {
+		
+		if (bid.getBidValue() <= 0) {
+			throw new InvalidBidValueException("Bid Value should be greater than zero");
+		}
+		
+		ConcurrentSkipListMap<BigDecimal, List<Bid>> bids = auction.getBids();
+		
+		List<Bid> bidsWithThisValue = bids.get(bid.getBidValue());
+		
+		if (bidsWithThisValue == null) {
+			//There is no bid with this same value. 
+			bidsWithThisValue = new ArrayList();
+		} 
+		bidsWithThisValue.add(bid);
+		bids.put(bid.getBidValue(), bidsWithThisValue);		
+		
+		auction.setNumberOfBids(auction.getNumberOfBids() + 1);
+		return bid;
+				
+	}
+	
+	
+}

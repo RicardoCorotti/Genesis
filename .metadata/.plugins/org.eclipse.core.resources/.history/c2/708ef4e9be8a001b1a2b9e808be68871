@@ -1,0 +1,29 @@
+package com.genesis.auction;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import io.restassured.RestAssured;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class GenesisAuctionApplicationTests {
+
+	@LocalServerPort
+	private int port;
+	
+	@BeforeEach
+	public void setUp() {
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		RestAssured.port = port;
+		
+	}
+	
+	
+	
+	@Test
+	void contextLoads() {
+	}
+
+}

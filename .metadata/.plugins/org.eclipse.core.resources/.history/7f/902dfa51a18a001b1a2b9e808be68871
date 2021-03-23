@@ -1,0 +1,70 @@
+package com.genesis.auction.domain.service;
+
+import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.NavigableSet;
+import java.util.concurrent.ConcurrentSkipListMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.genesis.auction.domain.model.Auction;
+import com.genesis.auction.domain.model.AuctionResult;
+import com.genesis.auction.domain.model.Bid;
+
+@Service
+public class AuctionService {
+
+	@Autowired 
+	Auction auction;
+	
+	@Autowired 
+	AuctionResult result;
+	
+	public Auction add() {
+		auction.setBids(new ConcurrentSkipListMap<BigDecimal, List<Bid>>());
+		auction.setNumberOfBids(0);
+		auction.setTotalCollection(new BigDecimal(0));
+		
+		return auction;
+	}
+	
+	public Auction get() {
+		return auction;		
+	}
+	
+	public AuctionResult getResult() {
+
+		//Iterator<Entry<BigDecimal, List<Bid>>> iterator = auction.getBids().entrySet().iterator();
+		
+		//NavigableSet navigableSet = auction.getBids().keySet();
+		Iterator<ConcurrentSkipListMap.Entry<BigDecimal, List<Bid>>> iterator = auction.getBids().entrySet().iterator();
+		
+		while (iterator.hasNext()) {
+			
+			//Integer numberOfBids = 
+			
+			ConcurrentSkipListMap.Entry<BigDecimal, List<Bid>> entry = iterator.next(); 
+			BigDecimal bidValue = (BigDecimal) entry.getKey();
+			List<Bid> bids = (List) entry.getValue();
+			
+			if (bids.size() == 1) {
+				result.setWinner("Ricardo");
+				result.setBidValue(new BigDecimal(1));
+				result.setTotalCollection(new BigDecimal(1000));				
+				
+				
+				
+			}
+			
+		}
+		
+		
+
+		
+		return result;
+	}
+	
+}

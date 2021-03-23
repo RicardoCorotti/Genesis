@@ -1,0 +1,28 @@
+package com.genesis.auction.domain.service;
+
+import java.util.concurrent.ConcurrentSkipListMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.genesis.auction.domain.model.Auction;
+import com.genesis.auction.domain.model.Bid;
+
+@Service
+public class AuctionService {
+
+	@Autowired 
+	Auction auction;
+	
+	public Auction add() {
+		auction.setBids(new ConcurrentSkipListMap<Float, Bid>());
+		auction.setNumberOfBids(0);
+		
+		return auction;
+	}
+	
+	public Auction get() {
+		return auction;		
+	}
+	
+}

@@ -1,0 +1,40 @@
+package com.genesis.auction.api.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.genesis.auction.domain.exception.InvalidBidValueException;
+import com.genesis.auction.domain.model.Bid;
+import com.genesis.auction.domain.service.AuctionService;
+import com.genesis.auction.domain.service.BidService;
+
+@RestController
+@RequestMapping("/auctions")
+public class AuctionController {
+
+	@Autowired
+	private AuctionService auctionService;
+	
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<Bid> add(@RequestBody Bid bid) {
+		
+		try {
+			bid = bidService.add(bid);
+			return ResponseEntity.ok(bid);
+			
+		} catch (InvalidBidValueException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			
+		}
+			
+		
+	}
+		
+}

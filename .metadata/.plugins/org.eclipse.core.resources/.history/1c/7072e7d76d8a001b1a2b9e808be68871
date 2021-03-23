@@ -1,0 +1,32 @@
+package com.genesis.auction.domain.model;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+public class Bid {
+
+	
+	@NotNull
+	private String bidderName;
+		
+	@Positive
+	private Float bidValue;
+	
+	public String getBidderName() {
+		return bidderName;
+	}
+	public void setBidderName(String bidderName) {
+		this.bidderName = bidderName;
+	}
+	public Float getBidValue() {
+		return bidValue;
+	}
+	public void setBidValue(Float bidValue) {
+		this.bidValue = bidValue;
+	}
+	
+	
+	
+	
+	
+}

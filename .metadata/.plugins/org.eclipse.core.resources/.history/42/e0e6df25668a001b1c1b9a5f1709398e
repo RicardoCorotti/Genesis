@@ -1,0 +1,12 @@
+package com.genesis.auction.api.exceptionhandler;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+public class Problem {
+
+	private LocalDateTime dateTime;
+	private String message;
+	
+}

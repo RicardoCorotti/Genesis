@@ -1,0 +1,22 @@
+package com.genesis.auction.domain.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.genesis.auction.domain.model.Auction;
+import com.genesis.auction.domain.model.Bid;
+
+@Service
+public class BidService {
+
+	@Autowired
+	Auction auction;
+	
+	public Bid add(Bid bid) {
+		
+		return bid;
+				
+	}
+	
+	
+}

@@ -1,0 +1,25 @@
+package com.genesis.auction;
+
+public class Bid {
+
+	private String bidderName;
+	private Float bidValue;
+	
+		public String getBidderName() {
+		return bidderName;
+	}
+	public void setBidderName(String bidderName) {
+		this.bidderName = bidderName;
+	}
+	public Float getBidValue() {
+		return bidValue;
+	}
+	public void setBidValue(Float bidValue) {
+		this.bidValue = bidValue;
+	}
+	
+	
+	
+	
+	
+}

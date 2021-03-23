@@ -1,0 +1,17 @@
+package com.genesis.auction;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class GenesisAuctionApplicationTests {
+
+	@LocalServerPort
+	private int port;
+	
+	@Test
+	void contextLoads() {
+	}
+
+}

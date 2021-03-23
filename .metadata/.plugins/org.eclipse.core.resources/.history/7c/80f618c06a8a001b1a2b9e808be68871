@@ -1,0 +1,27 @@
+package com.genesis.auction.api.exceptionhandler;
+
+import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.genesis.auction.domain.exception.InvalidBidValueException;
+
+@ControllerAdvice
+public class ApiExceptionHandler {
+
+	@ExceptionHandler(InvalidBidValueException.class)
+	public ResponseEntity<?> handleInvalidBidValueException(
+			InvalidBidValueException e) {
+		
+		Problem problem = Problem.builder()
+				.dateTime(LocalDateTime.now())
+				.message(e.getMessage()).build();
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+		
+	}
+	
+}

@@ -1,0 +1,15 @@
+package com.genesis.auction;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Auction {
+
+	public int contador;
+	
+	public Auction() {
+		System.out.println("########## Construtor de Auction chamado...");
+		contador = 0;
+	}
+		
+}

@@ -1,0 +1,17 @@
+package com.genesis.auction.domain.service;
+
+import org.springframework.stereotype.Service;
+
+import com.genesis.auction.Bid;
+
+@Service
+public class BidService {
+
+	public Bid add(Bid bid) {
+		
+		return bid;
+				
+	}
+	
+	
+}

@@ -1,0 +1,12 @@
+package com.genesis.auction.domain.exception;
+
+
+public class NoWinnerException extends BusinessException {
+
+	private static final long serialVersionUID = 3685908781863937279L;
+
+	public NoWinnerException(String message) {
+		super(message);
+	}
+	
+}

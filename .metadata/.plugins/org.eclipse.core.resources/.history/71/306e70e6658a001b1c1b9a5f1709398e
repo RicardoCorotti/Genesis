@@ -1,0 +1,5 @@
+package com.genesis.auction.api.exceptionhandler;
+
+public class Problem {
+
+}

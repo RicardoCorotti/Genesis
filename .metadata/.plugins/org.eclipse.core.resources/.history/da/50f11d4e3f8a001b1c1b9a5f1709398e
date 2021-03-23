@@ -1,0 +1,11 @@
+package com.genesis.auction.domain.exception;
+
+public class InvalidBidValueException extends RuntimeException {
+
+	private static final long serialVersionUID = 3685908781863937279L;
+
+	public InvalidBidValueException(String message) {
+		super(message);
+	}
+	
+}

@@ -1,0 +1,8 @@
+package com.genesis.auction.api.exceptionhandler;
+
+public class Problem {
+
+	private LocalDateTime dateTime;
+	private String message;
+	
+}

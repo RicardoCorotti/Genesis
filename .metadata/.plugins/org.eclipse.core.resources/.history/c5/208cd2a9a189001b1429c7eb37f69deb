@@ -1,0 +1,7 @@
+package com.genesis.auction.domain.exception;
+
+public class InvalidBidValueException extends RuntimeException {
+
+	
+	
+}

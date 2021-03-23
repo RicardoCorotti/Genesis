@@ -1,0 +1,12 @@
+package com.genesis.auction.domain.model;
+
+import java.util.concurrent.ConcurrentSkipListMap;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Auction {
+	
+	ConcurrentSkipListMap<Float, Bid> bids = new ConcurrentSkipListMap<Float, Bid>();
+		
+}

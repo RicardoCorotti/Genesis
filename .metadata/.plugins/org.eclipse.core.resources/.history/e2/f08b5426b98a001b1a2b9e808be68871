@@ -1,0 +1,13 @@
+package com.genesis.auction;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class GenesisAuctionApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
