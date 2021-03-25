@@ -14,7 +14,7 @@ import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationLogicTests {
+public class OverloadTests {
 
 	@LocalServerPort
 	private int port;
@@ -26,7 +26,7 @@ public class ApplicationLogicTests {
 	}
 
 	@Test
-	public void WHEN_RUNS_COMPLETE_AUCTION_THEN_RETURNS_CORRECT_WINNER() {
+	public void WHEN_RECEIVES_ONE_THOUSAND_REQUESTS_THEN_IGNORES_LAST_ONE() {
 
 		//Starts a new Auction
 		RestAssured.basePath = "/auctions";
@@ -38,50 +38,35 @@ public class ApplicationLogicTests {
 			.post()
 		.then()
 			.statusCode(HttpStatus.OK.value());
-				
+		
+		//Adds 999 Bids, in descending order of bid values to test data structure performance.
 		RestAssured.basePath = "/bids";
+		for (int requestNumber = 1; requestNumber <= 999; requestNumber++) {
 		
-		//Posts John Bid
+			System.out.println("##### requestNumber:" + requestNumber);
+			
+			RestAssured.given()
+				.body("{\"bidderName\": \"Bidder " + requestNumber  +  "\", \"bidValue\": " + (1000 - requestNumber) + "}")
+				.contentType(ContentType.JSON)
+				.accept(ContentType.JSON)
+			.when()
+				.post()
+			.then()
+				.statusCode(HttpStatus.CREATED.value());
+		}
+		
+		//Testing that auction should not accept more than 999 bidders.
 		RestAssured.given()
-			.body("{\"bidderName\": \"João\", \"bidValue\": 0.01}")
+			.body("{\"bidderName\": \"Bidder 1000\", \"bidValue\": 0.01}")
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
 			.post()
 		.then()
-			.statusCode(HttpStatus.CREATED.value());
+			.statusCode(HttpStatus.LOCKED.value());
 		
-		//Posts Maria Bid
-		RestAssured.given()
-			.body("{\"bidderName\": \"Maria\", \"bidValue\": 0.03}")
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.post()
-		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//Posts Renata Bid
-		RestAssured.given()
-			.body("{\"bidderName\": \"Renata\", \"bidValue\": 0.01}")
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.post()
-		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//Posts Pedro Bid
-		RestAssured.given()
-			.body("{\"bidderName\": \"Pedro\", \"bidValue\": 12.34}")
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.post()
-		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//The winner should be Maria
+		//Testing that the winner should be the bid with value $ 1. 
+		//This was the last one (999 th) added to the data structure in the loop above.  
 		RestAssured.basePath = "/auctions/result";
 		RestAssured.given()
 			.contentType(ContentType.JSON)
@@ -90,10 +75,10 @@ public class ApplicationLogicTests {
 			.get()
 		.then()
 			.statusCode(HttpStatus.OK.value())
-			.body("winner", Matchers.equalTo("Maria"))
-			.body("bidValue", Matchers.equalTo(0.03f))
-			.body("totalCollection", Matchers.equalTo(3.92f));		
-				
+			.body("winner", Matchers.equalTo("Bidder 999"))
+			.body("bidValue", Matchers.equalTo(1))
+			.body("totalCollection", Matchers.equalTo(979.02f));		
+		
 	}
 	
 

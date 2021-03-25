@@ -1,6 +1,5 @@
 package com.genesis.auction;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +13,7 @@ import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationLogicTests {
+public class ConsistencyChecksTests {
 
 	@LocalServerPort
 	private int port;
@@ -26,7 +25,7 @@ public class ApplicationLogicTests {
 	}
 
 	@Test
-	public void WHEN_RUNS_COMPLETE_AUCTION_THEN_RETURNS_CORRECT_WINNER() {
+	public void WHEN_RECEIVES_ZERO_BID_VALUE_THEN_RETURNS_BAD_REQUEST() {
 
 		//Starts a new Auction
 		RestAssured.basePath = "/auctions";
@@ -38,63 +37,72 @@ public class ApplicationLogicTests {
 			.post()
 		.then()
 			.statusCode(HttpStatus.OK.value());
-				
+		
+		//Tries to add a bid with value 0
 		RestAssured.basePath = "/bids";
-		
-		//Posts John Bid
 		RestAssured.given()
-			.body("{\"bidderName\": \"João\", \"bidValue\": 0.01}")
+			.body("{\"bidderName\": \"João\", \"bidValue\": 0}")
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
 			.post()
 		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//Posts Maria Bid
+			.statusCode(HttpStatus.BAD_REQUEST.value());
+			
+	}
+
+	@Test
+	public void WHEN_RECEIVES_NEGATIVE_BID_VALUE_THEN_RETURNS_BAD_REQUEST() {
+
+		//Starts a new Auction
+		RestAssured.basePath = "/auctions";
 		RestAssured.given()
-			.body("{\"bidderName\": \"Maria\", \"bidValue\": 0.03}")
+			.body("{}")
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
 			.post()
 		.then()
-			.statusCode(HttpStatus.CREATED.value());
+			.statusCode(HttpStatus.OK.value());
 		
-		//Posts Renata Bid
+		//Tries to add a bid with negative value
+		RestAssured.basePath = "/bids";
 		RestAssured.given()
-			.body("{\"bidderName\": \"Renata\", \"bidValue\": 0.01}")
+			.body("{\"bidderName\": \"João\", \"bidValue\": -1}")
 			.contentType(ContentType.JSON)
 			.accept(ContentType.JSON)
 		.when()
 			.post()
 		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//Posts Pedro Bid
-		RestAssured.given()
-			.body("{\"bidderName\": \"Pedro\", \"bidValue\": 12.34}")
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.post()
-		.then()
-			.statusCode(HttpStatus.CREATED.value());
-		
-		//The winner should be Maria
-		RestAssured.basePath = "/auctions/result";
-		RestAssured.given()
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.get()
-		.then()
-			.statusCode(HttpStatus.OK.value())
-			.body("winner", Matchers.equalTo("Maria"))
-			.body("bidValue", Matchers.equalTo(0.03f))
-			.body("totalCollection", Matchers.equalTo(3.92f));		
+			.statusCode(HttpStatus.BAD_REQUEST.value());
 				
 	}
 	
+	@Test
+	public void WHEN_RECEIVES_BID_VALUE_WITH_MORE_THAN_TWO_DECIMALS_THEN_RETURNS_BAD_REQUEST() {
 
+		//Starts a new Auction
+		RestAssured.basePath = "/auctions";
+		RestAssured.given()
+			.body("{}")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.OK.value());
+		
+		//Tries to add a bid with more than two decimals
+		RestAssured.basePath = "/bids";
+		RestAssured.given()
+			.body("{\"bidderName\": \"João\", \"bidValue\": 5.123}")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value());
+				
+	}
+	
 }
